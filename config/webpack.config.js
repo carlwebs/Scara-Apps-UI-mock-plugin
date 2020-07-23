@@ -24,6 +24,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -168,8 +169,8 @@ module.exports = function (webpackEnv) {
 			// There will be one main bundle, and one file per asynchronous chunk.
 			// In development, it does not produce real files.
 			filename: isEnvProduction
-				? 'static/js/[name].js'
-				: isEnvDevelopment && 'static/js/bundle.js',
+				? 'static/js/[name].chunk.js'
+				: isEnvDevelopment && 'static/js/[name].bundle.js',
 			// TODO: remove this when upgrading to webpack 5
 			futureEmitAssets: true,
 			// There are also additional JS chunk files if you use code splitting.
@@ -262,10 +263,17 @@ module.exports = function (webpackEnv) {
 			// Automatically split vendor and commons
 			// https://twitter.com/wSokra/status/969633336732905474
 			// https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
-			// splitChunks: {
-			// 	chunks: 'all',
-			// 	name: false,
-			// },
+			splitChunks: {
+				chunks: isEnvProduction ? 'async' : 'initial',
+				name: true,
+				cacheGroups: {
+					// Create one commons block to inlcuding all shared common
+					vendor: {
+						test: /[\\/]node_modules[\\/]/,
+						name: `vendors`,
+					}
+				}
+			},
 			// // Keep the runtime chunk separated to enable long term caching
 			// // https://twitter.com/wSokra/status/969679223278505985
 			// // https://github.com/facebook/create-react-app/issues/5358
@@ -435,7 +443,7 @@ module.exports = function (webpackEnv) {
 							// 	importLoaders: 1,
 							// 	sourceMap: isEnvProduction && shouldUseSourceMap,
 							// }),
-							use: ['react-web-component-style-loader','style-loader', 'css-loader'],
+							use: ['react-web-component-style-loader', 'style-loader', 'css-loader'],
 							// Don't consider CSS imports dead code even if the
 							// containing package claims to have no side effects.
 							// Remove this when webpack adds a warning or an error for this.
@@ -652,6 +660,7 @@ module.exports = function (webpackEnv) {
 				// The formatter is invoked directly in WebpackDevServerUtils during development
 				formatter: isEnvProduction ? typescriptFormatter : undefined,
 			}),
+			new BundleAnalyzerPlugin(),
 		].filter(Boolean),
 		// Some libraries import Node modules but don't use them in the browser.
 		// Tell webpack to provide empty mocks for them so importing them works.

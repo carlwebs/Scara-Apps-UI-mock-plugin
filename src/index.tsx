@@ -19,6 +19,5 @@ if (process.env.NODE_ENV === "development") {
 	// Learn more about service workers: https://bit.ly/CRA-PWA
 	serviceWorker.unregister();
 } else {
-	console.log('Plugins: ');
-	console.log('hello-plugin');
+	console.log('Plugin has generated.');
 }
