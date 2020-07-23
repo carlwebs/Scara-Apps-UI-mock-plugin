@@ -1,0 +1,6 @@
+{
+    "SIMPLE": "简单的句子",
+    "LANG_TYPE": "paas-cn",
+    "INPUT_MOBILE": "手机号",
+    "HELLO": "你好, {name}。欢迎来到{where}!"
+}

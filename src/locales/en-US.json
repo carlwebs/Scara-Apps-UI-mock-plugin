@@ -1,0 +1,6 @@
+{
+    "SIMPLE": "Simple Sentence",
+    "LANG_TYPE": "paas-us",
+    "INPUT_MOBILE": "Mobile Number",
+    "HELLO": "Hello, {name}. Welcome to {where}!"
+}
