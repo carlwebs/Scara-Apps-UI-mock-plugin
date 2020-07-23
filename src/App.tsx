@@ -23,6 +23,7 @@ class App extends React.Component {
                 <LanguageDemo></LanguageDemo>
                 <MaterialTableClassDemo></MaterialTableClassDemo>
                 <NumberInput blur={this.blur} type="int" data='20'></NumberInput>
+                <hello-plugin1></hello-plugin1>
             </div>
         )
     }

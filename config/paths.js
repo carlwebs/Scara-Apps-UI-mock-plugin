@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const glob = require('glob');
 const fs = require('fs');
 const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 
@@ -48,6 +49,14 @@ const resolveModule = (resolveFn, filePath) => {
   return resolveFn(`${filePath}.js`);
 };
 
+const pluginEntries = function () {
+  const pluginRoot = resolveApp('src/plugins');
+  return glob.sync(pluginRoot + '/*/*.tsx').reduce((acc, filePath) => {
+    const fileName = filePath.replace(/.*\/(\w+)\/\w+(\.html|\.tsx)$/, (rs, $1) => $1);
+    return { ...acc, [fileName]: filePath };
+  }, {});
+};
+
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -56,6 +65,7 @@ module.exports = {
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
+  appEntries: { ...pluginEntries(), main: resolveModule(resolveApp, 'src/index') },
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),

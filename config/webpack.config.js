@@ -25,9 +25,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-
 const postcssNormalize = require('postcss-normalize');
-
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -50,6 +48,7 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -129,6 +128,8 @@ module.exports = function (webpackEnv) {
 		return loaders;
 	};
 
+	// isEnvDevelopment && (paths.appEntries['webpackHotDevClient'] = require.resolve('react-dev-utils/webpackHotDevClient'));
+
 	return {
 		mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
 		// Stop compilation early in production
@@ -140,27 +141,27 @@ module.exports = function (webpackEnv) {
 			: isEnvDevelopment && 'cheap-module-source-map',
 		// These are the "entry points" to our application.
 		// This means they will be the "root" imports that are included in JS bundle.
-		entry: [
-			// Include an alternative client for WebpackDevServer. A client's job is to
-			// connect to WebpackDevServer by a socket and get notified about changes.
-			// When you save a file, the client will either apply hot updates (in case
-			// of CSS changes), or refresh the page (in case of JS changes). When you
-			// make a syntax error, this client will display a syntax error overlay.
-			// Note: instead of the default WebpackDevServer client, we use a custom one
-			// to bring better experience for Create React App users. You can replace
-			// the line below with these two lines if you prefer the stock client:
-			// require.resolve('webpack-dev-server/client') + '?/',
-			// require.resolve('webpack/hot/dev-server'),
-			isEnvDevelopment &&
-			require.resolve('react-dev-utils/webpackHotDevClient'),
-			// Finally, this is your app's code:
-			paths.appIndexJs,
-			paths.appPluginJs,
-			paths.appComponentJs,
-			// We include the app code last so that if there is a runtime error during
-			// initialization, it doesn't blow up the WebpackDevServer client, and
-			// changing JS code would still trigger a refresh.
-		].filter(Boolean),
+		// entry: [
+		// 	// Include an alternative client for WebpackDevServer. A client's job is to
+		// 	// connect to WebpackDevServer by a socket and get notified about changes.
+		// 	// When you save a file, the client will either apply hot updates (in case
+		// 	// of CSS changes), or refresh the page (in case of JS changes). When you
+		// 	// make a syntax error, this client will display a syntax error overlay.
+		// 	// Note: instead of the default WebpackDevServer client, we use a custom one
+		// 	// to bring better experience for Create React App users. You can replace
+		// 	// the line below with these two lines if you prefer the stock client:
+		// 	// require.resolve('webpack-dev-server/client') + '?/',
+		// 	// require.resolve('webpack/hot/dev-server'),
+		// 	isEnvDevelopment &&
+		// 	require.resolve('react-dev-utils/webpackHotDevClient'),
+		// 	// Finally, this is your app's code:
+		// 	paths.appIndexJs,
+		// 	// We include the app code last so that if there is a runtime error during
+		// 	// initialization, it doesn't blow up the WebpackDevServer client, and
+		// 	// changing JS code would still trigger a refresh.
+		// ].filter(Boolean),
+		entry: paths.appEntries,
+
 		output: {
 			// The build folder.
 			path: isEnvProduction ? paths.appBuild : undefined,
