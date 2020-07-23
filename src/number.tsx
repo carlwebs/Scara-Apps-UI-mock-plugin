@@ -14,10 +14,10 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function ValidationTextFields(props: any) {
+export default function NumberInput(props: any) {
     const classes = useStyles();
     const [valid, setValid] = useState(false);
-    const [value, setValue] = useState(props.data || '');
+    const [value, setValue] = useState(props.value || '');
     function change(event: any) {
         event.persist();
         let originalVal = event.target.value;
@@ -49,7 +49,7 @@ export default function ValidationTextFields(props: any) {
     }
 
     useEffect(() => {
-        console.log(props);
+
     })
 
     return (
@@ -64,7 +64,6 @@ export default function ValidationTextFields(props: any) {
                     // defaultValue="Hello World"
                     helperText="error信息"
                 />
-                <Input defaultValue="Hello world" />
             </div>
         </form>
     );

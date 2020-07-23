@@ -1,6 +1,8 @@
 {
-    "SIMPLE": "Simple Sentence",
-    "LANG_TYPE": "paas-us",
-    "INPUT_MOBILE": "Mobile Number",
-    "HELLO": "Hello, {name}. Welcome to {where}!"
+    "delete": "delete",
+    "create": "create",
+    "sMemberName": "sMemberName",
+    "lMemberAge": "lMemberAge",
+    "sMemberHobby": "sMemberHobby",
+    "lMemberScore": "lMemberScore"
 }

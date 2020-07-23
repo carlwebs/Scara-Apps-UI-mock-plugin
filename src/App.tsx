@@ -5,7 +5,7 @@ import './App.css';
 import MaterialDemo from './material';
 import LanguageDemo from './language';
 import MaterialTableClassDemo from './materialTableClass';
-import ValidationTextFields from './number';
+import NumberInput from './number';
 class App extends React.Component {
     componentDidMount(){
         console.log("myTest");
@@ -22,7 +22,7 @@ class App extends React.Component {
                 <MaterialDemo></MaterialDemo>
                 <LanguageDemo></LanguageDemo>
                 <MaterialTableClassDemo></MaterialTableClassDemo>
-                <ValidationTextFields blur={this.blur} type="int" data='20'></ValidationTextFields>
+                <NumberInput blur={this.blur} type="int" data='20'></NumberInput>
             </div>
         )
     }

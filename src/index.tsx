@@ -2,12 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import MockPluginOne from './mock_plugin_one';
 import * as serviceWorker from './serviceWorker';
 
 if (process.env.NODE_ENV === "development") {
 	ReactDOM.render(
 		<React.StrictMode>
-			<App />
+			{/* <App /> */}
+            <MockPluginOne />
 		</React.StrictMode>,
 		document.getElementById('root')
 	);

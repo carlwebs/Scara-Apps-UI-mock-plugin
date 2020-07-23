@@ -40,7 +40,7 @@ export default class LanguageDemo extends Component<any,any> {
                 {
                     this.state.initDone &&
                     <div>
-                      {intl.get('SIMPLE')}
+                      {intl.get('delete')}
                     </div>
                 }
                 <div>
