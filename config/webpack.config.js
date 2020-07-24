@@ -128,8 +128,6 @@ module.exports = function (webpackEnv) {
 		return loaders;
 	};
 
-	// isEnvDevelopment && (paths.appEntries['webpackHotDevClient'] = require.resolve('react-dev-utils/webpackHotDevClient'));
-
 	return {
 		mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
 		// Stop compilation early in production
