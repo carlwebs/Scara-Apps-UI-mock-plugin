@@ -7,13 +7,13 @@ import LanguageDemo from './language';
 import MaterialTableClassDemo from './materialTableClass';
 import NumberInput from './number';
 class App extends React.Component {
-    componentDidMount(){
+    componentDidMount() {
         console.log("myTest");
-        document.addEventListener("myTest",(e)=>{
+        document.addEventListener("myTest", (e) => {
             console.log(e);
         })
     }
-    blur(value:any){
+    blur(value: any) {
         console.log(value);
     }
     render() {
@@ -28,5 +28,5 @@ class App extends React.Component {
         )
     }
 }
-ReactWebComponent.create(<App />, 'my-component',false);
+ReactWebComponent.create(<App />, 'my-component', false);
 export default App;

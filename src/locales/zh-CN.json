@@ -5,5 +5,9 @@
     "lMemberAge": "成员年龄",
     "sMemberHobby": "成员爱好",
     "lMemberScore": "成员成绩",
-    "existName": "名称已存在"
+    "existName": "名称已存在",
+    "VariableName": "变量名",
+    "VariableValue": "变量值",
+    "cancel": "取消",
+    "insert": "插入"
 }

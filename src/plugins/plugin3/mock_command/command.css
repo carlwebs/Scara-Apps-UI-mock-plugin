@@ -1,0 +1,14 @@
+.addCommandForm {
+    width: 40%;
+}
+.MuiFormControl-root {
+    margin-left: 10% !important;
+}
+div.addCommandBtn {
+    padding: 50px 0;
+    margin-left: 100px !important;
+    margin-right: 30px !important;
+}
+.addCommandBtnInsert {
+    margin-right: 20px !important;
+}  

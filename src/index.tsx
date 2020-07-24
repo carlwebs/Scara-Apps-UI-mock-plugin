@@ -2,14 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import MockPluginOne from './mock_plugin_one';
+import AddCommand from './command';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-	<React.StrictMode>
-		<App />
-		<MockPluginOne />
-	</React.StrictMode>,
+	// <React.StrictMode>
+	// 	<App />
+	// 	<MockPluginOne />
+    //     <AddCommand />
+    // </React.StrictMode>,
+    <mock-plugin></mock-plugin>,
 	document.getElementById('root')
 );
 

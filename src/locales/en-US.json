@@ -5,5 +5,9 @@
     "lMemberAge": "lMemberAge",
     "sMemberHobby": "sMemberHobby",
     "lMemberScore": "lMemberScore",
-    "existName": "Name already exists"
+    "existName": "Name already exists",
+    "VariableName": "Variable name",
+    "VariableValue": "Variable value",
+    "cancel": "CANCEL",
+    "insert": "INSERT"
 }
