@@ -442,7 +442,7 @@ module.exports = function (webpackEnv) {
 							// 	importLoaders: 1,
 							// 	sourceMap: isEnvProduction && shouldUseSourceMap,
 							// }),
-							use: ['react-web-component-style-loader', 'style-loader', 'css-loader'],
+							use: ['style-loader', 'css-loader'],
 							// Don't consider CSS imports dead code even if the
 							// containing package claims to have no side effects.
 							// Remove this when webpack adds a warning or an error for this.

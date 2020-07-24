@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Box, Button } from '@material-ui/core'
 import ReactWebComponent from 'react-web-component';
 import SimpleTable from './materialTable';
 import intl from 'react-intl-universal';
