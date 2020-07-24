@@ -4,4 +4,4 @@ import ReactWebComponent from 'react-web-component';
 import AddCommand from './mock_command/command';
 
 
-ReactWebComponent.create(<AddCommand />, 'mock-command');
+ReactWebComponent.create(<AddCommand />, 'mock-command-dep');

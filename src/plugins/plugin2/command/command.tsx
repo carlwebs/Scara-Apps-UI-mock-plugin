@@ -67,7 +67,7 @@ function SimpleDialog(props: SimpleDialogProps) {
     );
 }
 
-function AddCommand() {
+function AddCommandComp() {
     const [open, setOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState(emails[1]);
 
@@ -94,6 +94,6 @@ function AddCommand() {
 
 export default class MockCommand extends React.Component {
     render() {
-        return <AddCommand />
+        return <AddCommandComp />
     }
 }
