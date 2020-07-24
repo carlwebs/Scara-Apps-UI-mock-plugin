@@ -4,5 +4,6 @@
     "sMemberName": "sMemberName",
     "lMemberAge": "lMemberAge",
     "sMemberHobby": "sMemberHobby",
-    "lMemberScore": "lMemberScore"
+    "lMemberScore": "lMemberScore",
+    "existName": "Name already exists"
 }

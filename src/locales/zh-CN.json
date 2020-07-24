@@ -4,5 +4,6 @@
     "sMemberName": "成员姓名",
     "lMemberAge": "成员年龄",
     "sMemberHobby": "成员爱好",
-    "lMemberScore": "成员成绩"
+    "lMemberScore": "成员成绩",
+    "existName": "名称已存在"
 }

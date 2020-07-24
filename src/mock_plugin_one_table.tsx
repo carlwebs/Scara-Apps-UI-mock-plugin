@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import NumberInput from './number';
+import StringInput from './stringInput';
 import { Button } from '@material-ui/core';
 import intl from 'react-intl-universal';
 
@@ -21,8 +22,6 @@ const useStyles = makeStyles({
 interface tableData {
     "sMemberName": string,
     "lMemberAge": string,
-    "sMemberHobby": string,
-    "lMemberScore": string,
     "checked"?: boolean
 }
 
@@ -34,13 +33,20 @@ let initData: tableData[] = [
 export default function MockPluginOneTable() {
     const classes = useStyles();
     const [rows, setRows] = useState(initData);
+    const [existNames,setExistNames] = useState<string[]>([]);
     const [checkAllBox, setCheckAll] = useState(false);
+    const [addMemberStatus, setAddMemberStatus] = useState(false);
+    const [ws, setWs] = useState<any>();
     useEffect(() => {
         let arrData: tableData[] = [
-            { "sMemberName": "jack", "lMemberAge": '1', "sMemberHobby": "play", "lMemberScore": '100', "checked": true },
-            { "sMemberName": "a", "lMemberAge": '2', "sMemberHobby": "play", "lMemberScore": '100', "checked": false },
-            { "sMemberName": "b", "lMemberAge": '3', "sMemberHobby": "play", "lMemberScore": '100', "checked": true }
+            { "sMemberName": "aa", "lMemberAge": '1', "checked": false },
+            { "sMemberName": "bb", "lMemberAge": '1', "checked": false },
+            { "sMemberName": "cc", "lMemberAge": '1', "checked": false },
         ]
+        // 获取数据
+        // ws.query("?MEMBER_UPDATE").then((result:any)=>{
+        //     console.log(result);
+        // })
         setRows(arrData);
     }, []);
     function checkAll() {
@@ -60,18 +66,40 @@ export default function MockPluginOneTable() {
         })
         setCheckAll(checkedNum.length === rows.length);
     }
-    function blur(value: string) {
-        console.log(rows)
+    function blur(row: tableData,index: number,valid?:boolean) {
+        if(addMemberStatus){
+            // 新建状态
+            // ws.query(`?MEMBER_CREAT("${row.sMemberName}")`).then((result:any)=>{
+            //     console.log(result);
+            // })
+        }else{
+            // 修改状态
+            // ws.query(`?MEMBER_SAVE("${row.sMemberName}","${row.lMemberAge}")`).then((result:any)=>{
+            //     console.log(result);
+            // })
+        }
+        setAddMemberStatus(false);
+        existNames[index] = row.sMemberName; 
+        setExistNames([...existNames]);
+
     }
     function addMember(){
+        setAddMemberStatus(true);
         setCheckAll(false);
-        const defaultMember: tableData = { "sMemberName": "", "lMemberAge": '0', "sMemberHobby": "default", "lMemberScore": '0', "checked": false };
-        const rowsData = [...rows,defaultMember];
-        setRows(rowsData);
+        const defaultMember: tableData = { "sMemberName": "", "lMemberAge": '1', "checked": false };
+        // const rowsData = [...rows,defaultMember];
+        setRows([...rows,defaultMember]);
+    }
+    function deleteItem(){
+        rows.forEach((row)=>{
+            // ws.query(`?MEMBER_DELETE("${row.sMemberName}","${row.lMemberAge}")`).then((result:any)=>{
+            //     console.log(result);
+            // })
+        })
     }
     return (
         <div>
-            <Button variant="contained" color="secondary">
+            <Button variant="contained" color="secondary" onClick={() => { deleteItem() }}>
                 {intl.get('delete')}
             </Button>
             <Button
@@ -89,8 +117,6 @@ export default function MockPluginOneTable() {
                             </TableCell>
                             <TableCell>{intl.get('sMemberName')}</TableCell>
                             <TableCell align="right">{intl.get('lMemberAge')}</TableCell>
-                            <TableCell align="right">{intl.get('sMemberHobby')}</TableCell>
-                            <TableCell align="right">{intl.get('lMemberScore')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -100,15 +126,10 @@ export default function MockPluginOneTable() {
                                     <Checkbox onChange={() => { checkOne(row, index) }} checked={row.checked} />
                                 </TableCell>
                                 <TableCell component="th" scope="row">
-                                    {row.sMemberName}--{index}
+                                    <StringInput autoFocus={(row.sMemberName==="" && addMemberStatus)?true:false} disabled={(row.sMemberName==="" && addMemberStatus)?false:true} value={row.sMemberName} blur={(value: string,valid: boolean)=>{row.sMemberName = value;blur(row,index,valid)}} existNames={existNames}/>
                                 </TableCell>
                                 <TableCell align="right">
-                                    {/* <input type="text" value={row.lMemberAge} onChange={()=>modify(row.lMemberAge)}/> */}
-                                    <NumberInput type='int' value={row.lMemberAge} blur={(value: string) => { blur(value); row.lMemberAge = value }} />
-                                </TableCell>
-                                <TableCell align="right">{row.sMemberHobby}</TableCell>
-                                <TableCell align="right">
-                                    <NumberInput type='int' value={row.lMemberScore} blur={(value: string) => { blur(value); row.lMemberScore = value }} />
+                                    <StringInput value={row.lMemberAge} blur={(value: string,valid: boolean)=>{row.lMemberAge = value;blur(row,index,valid)}} disabled={false}/>
                                 </TableCell>
                             </TableRow>
                         ))}

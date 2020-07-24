@@ -19,11 +19,11 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <MaterialDemo></MaterialDemo>
+                {/* <MaterialDemo></MaterialDemo>
                 <LanguageDemo></LanguageDemo>
                 <MaterialTableClassDemo></MaterialTableClassDemo>
                 <NumberInput blur={this.blur} type="int" data='20'></NumberInput>
-                <hello-plugin1></hello-plugin1>
+                <hello-plugin1></hello-plugin1> */}
             </div>
         )
     }
