@@ -32,7 +32,7 @@ let initData: tableData[] = [
 export default function MockPluginOneTable() {
     const classes = useStyles();
     const [rows, setRows] = useState(initData);
-    const [existNames, setExistNames] = useState<string[]>([]);
+    const [existNames, setExistNames] = useState<string[]>(["a"]);
     const [checkAllBox, setCheckAll] = useState(false);
     const [addMemberStatus, setAddMemberStatus] = useState(false);
     const [ws, setWs] = useState<any>();
@@ -48,7 +48,7 @@ export default function MockPluginOneTable() {
         // })
         setRows(arrData);
     }, []);
-    const checkAll = ()=> {
+    const checkAll = () => {
         setCheckAll(!checkAllBox);
         rows.map((value) => {
             value.checked = !checkAllBox;
@@ -58,15 +58,20 @@ export default function MockPluginOneTable() {
     }
     const checkOne = (row: tableData, index: number) => {
         row.checked = !row.checked;
-        const rowsData = [...rows];
-        setRows(rowsData);
+        setRows([...rows]);
         const checkedNum = rows.filter((row) => {
             return row.checked;
         })
         setCheckAll(checkedNum.length === rows.length);
     }
-    function blur(row: tableData, index: number, valid?: boolean) {
+    const blur = (row: tableData, index: number, valid?: boolean) => {
         if (addMemberStatus) {
+            setAddMemberStatus(false);
+            if (valid) {
+                rows.splice(index,1);
+                setRows([...rows]);
+                return;
+            }
             // 新建状态
             // ws.query(`?MEMBER_CREAT("${row.sMemberName}")`).then((result:any)=>{
             //     console.log(result);
@@ -77,10 +82,8 @@ export default function MockPluginOneTable() {
             //     console.log(result);
             // })
         }
-        setAddMemberStatus(false);
         existNames[index] = row.sMemberName;
         setExistNames([...existNames]);
-
     }
     function addMember() {
         setAddMemberStatus(true);

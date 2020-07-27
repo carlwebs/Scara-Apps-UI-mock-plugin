@@ -15,7 +15,9 @@ class App extends React.Component {
         return (
             <div>
             {/* <hello-plugin1></hello-plugin1> */}
-                <mock-plugin></mock-plugin>,
+                <plugin-icon></plugin-icon>
+
+                <mock-plugin></mock-plugin>
                 <mock-command></mock-command>
             </div>
         )
