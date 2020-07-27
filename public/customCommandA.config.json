@@ -1,0 +1,30 @@
+{
+    "name": "custom command a",
+    "discription": ["this is a plugin demo for test1","插件描述信息1"],
+    "author": "KUKA",
+    "version": "1.2.1",
+    "libs": ["APP1.PRG","APP1.LIB","APP1.O","APP1.DAT","APP1_ST.PRG"],
+    "scripts": ["customCommandA.chunk.js"],
+    "cs+Dependency": "v2.6.1",
+    "pluginDependency": [],
+    "projectFolder": "PLUGIN1",
+	"webComponents": [
+		{
+			"componentName": "plugin-icon",
+			"host": ["project-side-menu-entry"],
+			"props": [],
+			"methods": []
+		}, {
+			"componentName": "mock-plugin",
+			"host": [],
+			"props": [],
+			"methods": []
+		}, {
+			"componentName": "mock-command",
+			"host": ["project-side-menu-entry"],
+			"props": [],
+			"methods": []
+		}
+	],
+    "keyWords": ["PLUG_CMD1","PLUG_CMD2"]
+}

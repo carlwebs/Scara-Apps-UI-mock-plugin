@@ -6,7 +6,7 @@
     // document.body.appendChild(mainScript);
     // document.body.appendChild(venderScript);
 
-    const pluginEle = document.createElement('hello-plugin1');
+    const pluginEle = document.createElement('mock-plugin');
     const rootEle = document.getElementById('root');
     rootEle.appendChild(pluginEle);
 })();

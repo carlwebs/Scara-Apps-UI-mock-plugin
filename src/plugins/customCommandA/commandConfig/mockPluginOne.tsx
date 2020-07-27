@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import ReactWebComponent from 'react-web-component';
 import intl from 'react-intl-universal';
-import MockPluginOneTable from './mock_plugin_one_table'
+import MockPluginOneTable from './mockPluginOneTable'
 const locales = {
     "en-US": require('../../../locales/en-US.json'),
     "zh-CN": require('../../../locales/zh-CN.json'),

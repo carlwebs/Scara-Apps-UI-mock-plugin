@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactWebComponent from 'react-web-component';
-import MockPluginOne from './mock-plugin/mock_plugin_one';
 import MockCommand from './command/command';
-import PluginIcon from './mock-plugin/plugin_icon';
+import MockPluginOne from './commandConfig/mockPluginOne';
+import PluginIcon from './commandConfigEntry/pluginIcon';
 
 ReactWebComponent.create(<MockCommand />, 'mock-command', false);
 ReactWebComponent.create(<MockPluginOne />, 'mock-plugin', false);

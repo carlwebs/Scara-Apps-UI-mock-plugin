@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
-import './plugin_icon.css';
+import './pluginIcon.css';
 
 function HomeIcon(props: SvgIconProps) {
     return (
