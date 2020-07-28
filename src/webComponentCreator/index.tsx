@@ -17,11 +17,11 @@ const retargetEvents = require('react-shadow-dom-retarget-events');
 */
 export default function createCustomElement(app: any, tagName: string, events: string[] = [], useShadowDom = false) {
     const lifeCycleHooks: any = {
-        attachedCallback: 'webComponentAttached',
-        connectedCallback: 'webComponentConnected',
-        disconnectedCallback: 'webComponentDisconnected',
-        attributeChangedCallback: 'webComponentAttributeChanged',
-        adoptedCallback: 'webComponentAdopted'
+        attachedCallback: 'attachedCallback',
+        connectedCallback: 'connectedCallback',
+        disconnectedCallback: 'disconnectedCallback',
+        attributeChangedCallback: 'attributeChangedCallback',
+        adoptedCallback: 'adoptedCallback'
     };
 
     function callConstructorHook(appInstance: any, webComponentInstance: any) {
@@ -78,21 +78,22 @@ export default function createCustomElement(app: any, tagName: string, events: s
             const ele = React.cloneElement(tempApp, attr);
 
             ReactDOM.render(ele, mountPoint, function (this: typeof HTMLElement) {
+                if (!this) return;
                 callConstructorHook(this, webComponentInstance);
-                callLifeCycleHook(this, 'connectedCallback');
+                callLifeCycleHook(this, lifeCycleHooks.connectedCallback);
             });
         }
 
         disconnectedCallback() {
-            callLifeCycleHook('disconnectedCallback');
+            callLifeCycleHook(lifeCycleHooks.disconnectedCallback);
         }
 
         attributeChangedCallback(attributeName: any, oldValue: any, newValue: any, namespace: any) {
-            callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
+            callLifeCycleHook(lifeCycleHooks.attributeChangedCallback, [attributeName, oldValue, newValue, namespace]);
         }
 
         adoptedCallback(oldDocument: any, newDocument: any) {
-            callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
+            callLifeCycleHook(lifeCycleHooks.adoptedCallback, [oldDocument, newDocument]);
         }
     };
     customElements.define(tagName, proto);

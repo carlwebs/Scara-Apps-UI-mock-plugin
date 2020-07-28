@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
 import './entry.css';
 
@@ -19,9 +19,9 @@ export class PluginCommandAEntry extends Component {
         this.state = { value: 'click me' };
     }
 
-    webComponentConnected() {
+    connectedCallback() {
         // will be called when the Web Component has been attached
-        console.log('webComponentConnected');
+        console.log('connectedCallback');
     }
 
     clickHandler() {
@@ -30,7 +30,7 @@ export class PluginCommandAEntry extends Component {
             this.setState({ value: res });
         });
     }
-    
+
     render() {
         return (
             <div className="addPluginIcon" onClick={this.clickHandler}>
@@ -40,3 +40,18 @@ export class PluginCommandAEntry extends Component {
         );
     }
 }
+
+export function PluginCommandAEntryFunc(props: any) {
+    const [value, setValue] = useState('click me');
+
+    function clickHandler(): void {
+        props.clickEvent('Click me', (res: string) => setValue(res));
+    };
+
+    return (
+        <div className="addPluginIcon" onClick={clickHandler}>
+            <HomeIcon color="primary" />
+            <div className="variable">PluginCommandPras; {value}</div>
+        </div>
+    );
+};
