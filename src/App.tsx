@@ -12,7 +12,7 @@ class App extends React.Component {
         entryEle.addEventListener('clickEvent', (e: any) => {
             console.log('Catched event on listener: ', e.detail.value);
             setTimeout(() => {
-                e.detail.cb('par');
+                e.detail.cb('You clicked me');
             }, 500);
         });
         entryEle.setAttribute('name', 'Hello Input name');

@@ -1,11 +1,13 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const retargetEvents = require('react-shadow-dom-retarget-events');
-const getStyleElementsFromReactWebComponentStyleLoader = require('./getStyleElementsFromReactWebComponentStyleLoader');
-const extractAttributes = require('./extractAttributes');
-
+import React from 'react';
+import ReactDOM from 'react-dom'; import {
+    getStyleElementsFromReactWebComponentStyleLoader,
+    extractAttributes
+} from './adjunct';
 require('@webcomponents/shadydom');
 require('@webcomponents/custom-elements');
+
+// eslint-disable-next-line
+const retargetEvents = require('react-shadow-dom-retarget-events');
 
 /**
 * @param {JSX.Element} app
@@ -13,8 +15,8 @@ require('@webcomponents/custom-elements');
 * @param {string[]} [events=[]] - The register events for listen on custom element.
 * @param {boolean} useShadowDom - If the value is set to "true" the web component will use the `shadowDom`. The default value is true.
 */
-module.exports = function createCustomElement(app, tagName, events = [], useShadowDom = false) {
-    const lifeCycleHooks = {
+export default function createCustomElement(app: any, tagName: string, events: string[] = [], useShadowDom = false) {
+    const lifeCycleHooks: any = {
         attachedCallback: 'webComponentAttached',
         connectedCallback: 'webComponentConnected',
         disconnectedCallback: 'webComponentDisconnected',
@@ -22,13 +24,13 @@ module.exports = function createCustomElement(app, tagName, events = [], useShad
         adoptedCallback: 'webComponentAdopted'
     };
 
-    function callConstructorHook(appInstance, webComponentInstance) {
+    function callConstructorHook(appInstance: any, webComponentInstance: any) {
         if (appInstance['webComponentConstructed']) {
             appInstance['webComponentConstructed'].apply(appInstance, [webComponentInstance])
         }
     }
 
-    function callLifeCycleHook(appInstance, hook, params) {
+    function callLifeCycleHook(appInstance: any, hook?: any, params?: any) {
         const instanceParams = params || [];
         const instanceMethod = lifeCycleHooks[hook];
         if (instanceMethod && appInstance && appInstance[instanceMethod]) {
@@ -36,11 +38,11 @@ module.exports = function createCustomElement(app, tagName, events = [], useShad
         }
     }
 
-    function registerEvents(app, webComponentInstance, events) {
+    function registerEvents(app: any, webComponentInstance: any, events: any) {
         const tempApp = { ...app };
         tempApp.props = { ...app.props };
-        events.forEach(eventName => {
-            tempApp.props[eventName] = (value, cb) => {
+        events.forEach((eventName: string) => {
+            tempApp.props[eventName] = (value: string, cb: Function) => {
                 const customEvent = new CustomEvent(eventName, {
                     detail: { value, cb }
                 });
@@ -62,7 +64,7 @@ module.exports = function createCustomElement(app, tagName, events = [], useShad
                 // Move all of the styles assigned to the react component inside of the shadowRoot.
                 // By default this is not used, only if the library is explicitly installed
                 const styles = getStyleElementsFromReactWebComponentStyleLoader();
-                styles.forEach((style) => {
+                styles.forEach((style: any) => {
                     shadowRoot.appendChild(style.cloneNode(shadowRoot));
                 });
 
@@ -70,23 +72,26 @@ module.exports = function createCustomElement(app, tagName, events = [], useShad
 
                 retargetEvents(shadowRoot);
             }
-            
+
             const tempApp = registerEvents(app, webComponentInstance, events);
             const attr = extractAttributes(webComponentInstance);
             const ele = React.cloneElement(tempApp, attr);
-            
-            ReactDOM.render(ele, mountPoint, function () {
+
+            ReactDOM.render(ele, mountPoint, function (this: typeof HTMLElement) {
                 callConstructorHook(this, webComponentInstance);
                 callLifeCycleHook(this, 'connectedCallback');
             });
         }
+
         disconnectedCallback() {
             callLifeCycleHook('disconnectedCallback');
         }
-        attributeChangedCallback(attributeName, oldValue, newValue, namespace) {
+
+        attributeChangedCallback(attributeName: any, oldValue: any, newValue: any, namespace: any) {
             callLifeCycleHook('attributeChangedCallback', [attributeName, oldValue, newValue, namespace]);
         }
-        adoptedCallback(oldDocument, newDocument) {
+
+        adoptedCallback(oldDocument: any, newDocument: any) {
             callLifeCycleHook('adoptedCallback', [oldDocument, newDocument]);
         }
     };

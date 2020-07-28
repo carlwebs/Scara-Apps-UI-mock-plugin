@@ -148,6 +148,7 @@
   },
   "devDependencies": {
     "live-server": "^1.2.1",
+    "react-web-component-style-loader": "^0.1.4-alpha",
     "style-loader": "^0.23.1",
     "webpack-bundle-analyzer": "^3.8.0"
   }

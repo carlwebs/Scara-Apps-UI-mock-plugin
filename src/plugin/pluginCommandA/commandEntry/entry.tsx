@@ -12,9 +12,11 @@ function HomeIcon(props: SvgIconProps) {
 
 export class PluginCommandAEntry extends Component {
     props: any;
+    state: any;
     constructor(props: any) {
         super(props);
         this.clickHandler = this.clickHandler.bind(this);
+        this.state = { value: 'click me' };
     }
 
     webComponentConnected() {
@@ -23,8 +25,9 @@ export class PluginCommandAEntry extends Component {
     }
 
     clickHandler() {
-        this.props.clickEvent('Click me', (e: string) => {
-            console.log('Cached callback fn with: ', e);
+        this.props.clickEvent('Click me', (res: string) => {
+            console.log('Cached callback fn with: ', res);
+            this.setState({ value: res });
         });
     }
     
@@ -32,7 +35,7 @@ export class PluginCommandAEntry extends Component {
         return (
             <div className="addPluginIcon" onClick={this.clickHandler}>
                 <HomeIcon color="primary" />
-                <div className="variable">PluginCommandPras; {this.props.name}</div>
+                <div className="variable">PluginCommandPras; {this.state.value}</div>
             </div>
         );
     }
