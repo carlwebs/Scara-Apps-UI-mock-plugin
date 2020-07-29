@@ -9,5 +9,6 @@
     "VariableName": "Variable name",
     "VariableValue": "Variable value",
     "cancel": "CANCEL",
-    "insert": "INSERT"
+    "insert": "INSERT",
+    "variable": "variable"
 }

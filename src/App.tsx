@@ -3,10 +3,7 @@ import './App.css';
 
 class App extends React.Component {
     componentDidMount() {
-        console.log("myTest");
-        document.addEventListener("myTest", (e) => {
-            console.log(e);
-        })
+       
     }
     blur(value: any) {
         console.log(value);
@@ -16,9 +13,9 @@ class App extends React.Component {
             <div>
             {/* <hello-plugin1></hello-plugin1> */}
                 <plugin-icon></plugin-icon>
-
                 <mock-plugin></mock-plugin>
                 <mock-command></mock-command>
+                <mock-command-delete></mock-command-delete>
             </div>
         )
     }

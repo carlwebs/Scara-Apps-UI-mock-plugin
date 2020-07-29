@@ -11,6 +11,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import StringInput from './stringInput';
 import { Button } from '@material-ui/core';
 import intl from 'react-intl-universal';
+import { getCustomEvent } from '../../customEvent';
 
 const useStyles = makeStyles({
     table: {
@@ -32,21 +33,31 @@ let initData: tableData[] = [
 export default function MockPluginOneTable() {
     const classes = useStyles();
     const [rows, setRows] = useState(initData);
-    const [existNames, setExistNames] = useState<string[]>(["a"]);
+    const [existNames, setExistNames] = useState<string[]>([]);
     const [checkAllBox, setCheckAll] = useState(false);
     const [addMemberStatus, setAddMemberStatus] = useState(false);
     const [ws, setWs] = useState<any>();
     useEffect(() => {
-        let arrData: tableData[] = [
-            { "sMemberName": "aa", "lMemberAge": '1', "checked": false },
-            { "sMemberName": "bb", "lMemberAge": '1', "checked": false },
-            { "sMemberName": "cc", "lMemberAge": '1', "checked": false },
-        ]
-        // 获取数据
-        // ws.query("?MEMBER_UPDATE").then((result:any)=>{
-        //     console.log(result);
-        // })
-        setRows(arrData);
+        getCustomEvent("ws", (value:any) => {
+            setWs(value.ws);
+            // 获取数据
+            value.ws.query("?MEMBER_UPDATE").then((result:any)=>{
+                console.log(result);
+                const exist: string[] = [];
+                const data = JSON.parse(result.result);
+                data.forEach((element: tableData) => {
+                    element.checked = false;
+                    exist.push(element.sMemberName);
+                });
+                setRows(data);
+                setExistNames(exist);
+            })
+        })
+        // let arrData: tableData[] = [
+        //     { "sMemberName": "aa", "lMemberAge": '1', "checked": false },
+        //     { "sMemberName": "bb", "lMemberAge": '1', "checked": false },
+        //     { "sMemberName": "cc", "lMemberAge": '1', "checked": false },
+        // ]
     }, []);
     const checkAll = () => {
         setCheckAll(!checkAllBox);
@@ -67,44 +78,50 @@ export default function MockPluginOneTable() {
     const blur = (row: tableData, index: number, valid?: boolean) => {
         if (addMemberStatus) {
             setAddMemberStatus(false);
-            if (valid) {
+            if (valid || row.sMemberName === "") {
                 rows.splice(index,1);
                 setRows([...rows]);
                 return;
             }
             // 新建状态
-            // ws.query(`?MEMBER_CREAT("${row.sMemberName}")`).then((result:any)=>{
-            //     console.log(result);
-            // })
+            ws.query(`?MEMBER_CREAT("${row.sMemberName}")`);
+            setExistNames([...existNames,row.sMemberName]);
         } else {
             // 修改状态
-            // ws.query(`?MEMBER_SAVE("${row.sMemberName}","${row.lMemberAge}")`).then((result:any)=>{
-            //     console.log(result);
-            // })
+            ws.query(`?MEMBER_SAVE("${row.sMemberName}","${row.lMemberAge}")`);
         }
         existNames[index] = row.sMemberName;
         setExistNames([...existNames]);
     }
-    function addMember() {
+    const addMember = () => {
         setAddMemberStatus(true);
         setCheckAll(false);
         const defaultMember: tableData = { "sMemberName": "", "lMemberAge": '1', "checked": false };
         // const rowsData = [...rows,defaultMember];
         setRows([...rows, defaultMember]);
     }
-    function deleteItem() {
+    const deletBtn = () => {
+        const checkedNum = rows.filter((row) => {
+            return row.checked;
+        })
+        return checkedNum.length;
+    }
+    const deleteItem = () => {
         rows.forEach((row) => {
-            // ws.query(`?MEMBER_DELETE("${row.sMemberName}","${row.lMemberAge}")`).then((result:any)=>{
-            //     console.log(result);
-            // })
+            ws.query(`?MEMBER_DELETE_ROW("${row.sMemberName}")`).then((result:any)=>{
+                setExistNames(existNames.filter((item) => {
+                    return item !== row.sMemberName;
+                }));
+            })
         })
     }
     return (
         <div>
-            <Button variant="contained" color="secondary" onClick={() => { deleteItem() }}>
+            <Button variant="contained" color="secondary" onClick={() => { deleteItem() }} disabled={deletBtn() === 0}>
                 {intl.get('delete')}
             </Button>
             <Button
+                disabled = {rows.length === 10}
                 variant="contained"
                 color="primary"
                 onClick={() => { addMember() }}>

@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactWebComponent from 'react-web-component';
-// import { HelloPlugin } from './hello-plugin/hello-plugin';
 import AddCommand from './mockCommand/command';
+import initLanguage from '../initLanguage';
+import { getCustomEvent } from '../customEvent';
+getCustomEvent("changeLanguage",(value: any) => {
+    initLanguage();
 
+})
+initLanguage();
 
-ReactWebComponent.create(<AddCommand />, 'mock-command-dep');
+ReactWebComponent.create(<AddCommand />, 'mock-command-delete',false);

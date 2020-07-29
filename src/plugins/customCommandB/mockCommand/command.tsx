@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -11,6 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import intl from 'react-intl-universal';
 import './command.css';
+import { getCustomEvent } from '../../customEvent';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const useStyles = makeStyles({
@@ -23,31 +24,38 @@ const useStyles = makeStyles({
 export interface SimpleDialogProps {
     open: boolean;
     selectedValue: string;
-    onClose: (value: string) => void;
+    onClose: () => void;
+    addCommand: any;
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
     const classes = useStyles();
-    const { onClose, selectedValue, open } = props;
-    const [age, setAge] = React.useState('');
+    const { onClose, selectedValue, open, addCommand } = props;
+    const [selectValue, setSelectValue] = useState('');
 
     const handleClose = () => {
-        onClose(age);
+        onClose();
     };
 
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setAge(event.target.value as string);
+        setSelectValue(event.target.value as string);
+        console.log(event.target.value);
     };
+
+    const addMemberSave = () => {
+        const cmd = `MEMDEL_DELETE(selectValue)`;
+        addCommand.insertAndJump(cmd,0)
+    }
 
     return (
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle id="simple-dialog-title">add command</DialogTitle>
             <FormControl className="addCommandForm">
-                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <InputLabel id="demo-simple-select-label">variable</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={age}
+                    value={selectValue}
                     onChange={handleChange}
                 >
                     <MenuItem value={10}>Ten</MenuItem>
@@ -56,10 +64,10 @@ function SimpleDialog(props: SimpleDialogProps) {
                 </Select>
             </FormControl>
             <div className="addCommandBtn">
-                <Button variant="contained" color="primary" className="addCommandBtnInsert">
+                <Button variant="contained" color="primary" className="addCommandBtnInsert" onClick={handleClose}>
                     {intl.get('cancel')}
                 </Button>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={addMemberSave}>
                     {intl.get('insert')}
                 </Button>
             </div>
@@ -67,26 +75,46 @@ function SimpleDialog(props: SimpleDialogProps) {
     );
 }
 
-export default function AddCommand() {
-    const [open, setOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+function AddCommand() {
+    const [open, setOpen] = useState(false);
+    const [selectedValue, setSelectedValue] = useState(emails[1]);
+    const [addCommand, setAddCommand] = useState();
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const handleClose = (value: string) => {
+    const handleClose = () => {
         setOpen(false);
     };
 
+    useEffect(() => {
+        // document.addEventListener("addCommand",(e:any)=>{
+        //     setAddCommand(e.detail.addCommand);
+        // })
+        getCustomEvent("addCommand",(value: any) => {
+            setAddCommand(value.addCommand);
+        })
+    }, []);
+
     return (
         <div>
-            <Typography variant="subtitle1"></Typography>
-            <br />
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                Open simple dialog
-            </Button>
-            <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
+            <div onClick={handleClickOpen}>
+                MEMDEL_DELETE
+            </div>
+            <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} addCommand={addCommand}/>
         </div>
     );
 }
+
+
+export default class AddCommandClass extends Component {
+    render() {
+        return (
+            <div>
+                <AddCommand />
+            </div>
+        );
+    }
+}
+

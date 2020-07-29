@@ -3,6 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
 import './pluginIcon.css';
+import { getCustomEvent } from '../../customEvent';
 
 function HomeIcon(props: SvgIconProps) {
     return (
@@ -13,10 +14,10 @@ function HomeIcon(props: SvgIconProps) {
 }
 
 function pluginElement(){
-    document.dispatchEvent(new CustomEvent("plugin",{
-        "detail":{
-            "pluginElement": "mock-plugin"        }
-    }))
+    // document.dispatchEvent(new CustomEvent("plugin",{
+    //     "detail":{
+    //         "pluginElement": "mock-plugin"        }
+    // }))
 }
 
 function SvgIconsColor() {
@@ -29,8 +30,31 @@ function SvgIconsColor() {
     );
 }
 
-export default class PluginIcon extends Component {
+export default class PluginIcon extends Component <any,any>{
+    constructor(props:any) {
+        super(props);
+        this.state = {
+            router: ''
+        }
+    }
+    componentDidMount() {
+        getCustomEvent("router", (router:any) => {
+            this.setState({
+                "router": router
+            })
+        })
+    }
+    goPlugin = () => {
+        // this.state.router && this.state.router.router.navigateByUrl(`/projects/plugin?component=mock-plugin`);
+        // setTimeout(() => {
+        //     this.state.router.router.navigateByUrl(`/projects/plugin?component=mock-plugin`)
+        // }, 0);
+    }
     render() {
-        return <SvgIconsColor></SvgIconsColor>
+        return (
+            <div onClick={() => {this.goPlugin()}}>
+                <SvgIconsColor></SvgIconsColor>
+            </div>
+        )
     }
 }

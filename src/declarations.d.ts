@@ -4,5 +4,6 @@ declare namespace JSX {
         'mock-plugin': any;
         'mock-command': any;
         'plugin-icon': any;
+        'mock-command-delete': any;
     }
 }

@@ -1,65 +1,95 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
-import { blue } from '@material-ui/core/colors';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import intl from 'react-intl-universal';
+import StringInput from '../commandConfig/stringInput';
 import './command.css';
+import { getCustomEvent } from '../../customEvent';
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
-const useStyles = makeStyles({
-    avatar: {
-        backgroundColor: blue[100],
-        color: blue[600],
-    },
-});
+interface tableData {
+    "sMemberName": string,
+    "lMemberAge": string,
+    "checked"?: boolean
+}
 
 export interface SimpleDialogProps {
     open: boolean;
-    selectedValue: string;
-    onClose: (value: string) => void;
+    onClose: () => void;
+    addCommand: any;
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
-    const classes = useStyles();
-    const { onClose, selectedValue, open } = props;
-    const [age, setAge] = React.useState('');
+    const { onClose, open, addCommand } = props;
+    const [selectedVar, setSelectVar] = useState('');
+    const [variable, setVariable] = useState('');
+    const [allVariable, setAllVariable] = useState<tableData[]>([]);
+    const [ws, setWs] = useState<any>();
 
-    const handleClose = () => {
-        onClose(age);
+
+    const handleClose = (): void => {
+        onClose();
     };
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setAge(event.target.value as string);
+    const handleChange = (event: React.ChangeEvent<{ value: unknown }>): void => {
+        const selectVarName = event.target.value;
+        setSelectVar(selectVarName as string);
+        allVariable.forEach(element => {
+            if (element.sMemberName === selectVarName) {
+                setVariable(element.lMemberAge);
+            }
+        });
     };
+
+    const addMemberSave = (): void => {
+        const cmd = `MEMBER_UPDATE(selectedVar,variable)`;
+        addCommand.insertAndJump(cmd, 0)
+    }
+    useEffect(() => {
+        getCustomEvent("ws", (value: any) => {
+            setWs(value.ws);
+        })
+        // ws.query("?MEMBER_UPDATE").then((result:any)=>{
+        //     const variableNames: tableData[] = [];
+        //     const data = JSON.parse(result.result);
+        //     data.forEach((element: tableData) => {
+        //         variableNames.push(element);
+        //     });
+        //     setAllVariable(variableNames);
+        // })
+    }, []);
 
     return (
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle id="simple-dialog-title">add command</DialogTitle>
             <FormControl className="addCommandForm">
-                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <InputLabel id="demo-simple-select-label">
+                    {intl.get('variable')}
+                </InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={age}
+                    value={selectedVar}
                     onChange={handleChange}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
+                    {allVariable.map((ele) => {
+                        return <MenuItem value={ele.sMemberName} key={ele.sMemberName}>{ele.sMemberName}</MenuItem>
+                    })}
+                    {/* <MenuItem value={10}>Ten</MenuItem>
                     <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
             </FormControl>
+            <StringInput blur={(value: string, valid: boolean) => { }} value={variable}></StringInput>
             <div className="addCommandBtn">
-                <Button variant="contained" color="primary" className="addCommandBtnInsert">
+                <Button variant="contained" color="primary" className="addCommandBtnInsert" onClick={onClose}>
                     {intl.get('cancel')}
                 </Button>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={addMemberSave}>
                     {intl.get('insert')}
                 </Button>
             </div>
@@ -68,31 +98,40 @@ function SimpleDialog(props: SimpleDialogProps) {
 }
 
 function AddCommandComp() {
-    const [open, setOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState(emails[1]);
+    const [open, setOpen] = useState(false);
+    const [addCommand, setAddCommand] = useState();
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const handleClose = (value: string) => {
+    const handleClose = () => {
         setOpen(false);
     };
 
+    useEffect(() => {
+        // document.addEventListener("addCommand",(e:any)=>{
+        //     setAddCommand(e.detail.addCommand);
+        // })
+        getCustomEvent("addCommand", (value: any) => {
+            setAddCommand(value.addCommand);
+        })
+    }, []);
+
     return (
         <div>
-            <Typography variant="subtitle1"></Typography>
-            <br />
-            
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                Open simple dialog
-            </Button>
-            <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
+            <div onClick={handleClickOpen}>
+                MEMBER_UPDATE
+            </div>
+            <SimpleDialog open={open} onClose={handleClose} addCommand={addCommand} />
         </div>
     );
 }
 
 export default class MockCommand extends React.Component {
+    componentDidMount() {
+
+    }
     render() {
         return <AddCommandComp />
     }
