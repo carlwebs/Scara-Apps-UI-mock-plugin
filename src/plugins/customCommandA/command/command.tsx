@@ -52,20 +52,21 @@ function SimpleDialog(props: SimpleDialogProps) {
     useEffect(() => {
         getCustomEvent("ws", (value: any) => {
             setWs(value.ws);
+            value.ws.query("?MEMBER_UPDATE").then((result: any) => {
+                const variableNames: tableData[] = [];
+                const data = JSON.parse(result.result);
+                data.forEach((element: tableData) => {
+                    variableNames.push(element);
+                });
+                setAllVariable(variableNames);
+            })
         })
-        // ws.query("?MEMBER_UPDATE").then((result:any)=>{
-        //     const variableNames: tableData[] = [];
-        //     const data = JSON.parse(result.result);
-        //     data.forEach((element: tableData) => {
-        //         variableNames.push(element);
-        //     });
-        //     setAllVariable(variableNames);
-        // })
+
     }, []);
 
     return (
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-            <DialogTitle id="simple-dialog-title">add command</DialogTitle>
+            <DialogTitle id="simple-dialog-title">{intl.get('modifyVariable')}</DialogTitle>
             <FormControl className="addCommandForm">
                 <InputLabel id="demo-simple-select-label">
                     {intl.get('variable')}
@@ -89,7 +90,7 @@ function SimpleDialog(props: SimpleDialogProps) {
                 <Button variant="contained" color="primary" className="addCommandBtnInsert" onClick={onClose}>
                     {intl.get('cancel')}
                 </Button>
-                <Button variant="contained" color="primary" onClick={addMemberSave}>
+                <Button variant="contained" color="primary" onClick={addMemberSave} disabled={!selectedVar || !variable}>
                     {intl.get('insert')}
                 </Button>
             </div>

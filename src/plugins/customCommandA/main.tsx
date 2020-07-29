@@ -5,7 +5,7 @@ import MockPluginOne from './commandConfig/mockPluginOne';
 import PluginIcon from './commandConfigEntry/pluginIcon';
 import initLanguage from '../initLanguage';
 import { getCustomEvent } from '../customEvent';
-getCustomEvent("changeLanguage",(value: any) => {
+getCustomEvent("changeLanguage", (value: any) => {
     initLanguage();
 
 })

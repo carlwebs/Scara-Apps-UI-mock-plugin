@@ -38,20 +38,9 @@ export default function MockPluginOneTable() {
     const [addMemberStatus, setAddMemberStatus] = useState(false);
     const [ws, setWs] = useState<any>();
     useEffect(() => {
-        getCustomEvent("ws", (value:any) => {
+        getCustomEvent("ws", (value: any) => {
             setWs(value.ws);
-            // 获取数据
-            value.ws.query("?MEMBER_UPDATE").then((result:any)=>{
-                console.log(result);
-                const exist: string[] = [];
-                const data = JSON.parse(result.result);
-                data.forEach((element: tableData) => {
-                    element.checked = false;
-                    exist.push(element.sMemberName);
-                });
-                setRows(data);
-                setExistNames(exist);
-            })
+            update(value.ws);
         })
         // let arrData: tableData[] = [
         //     { "sMemberName": "aa", "lMemberAge": '1', "checked": false },
@@ -59,13 +48,26 @@ export default function MockPluginOneTable() {
         //     { "sMemberName": "cc", "lMemberAge": '1', "checked": false },
         // ]
     }, []);
+
+    const update = (ws: any) => {
+        ws.query("?MEMBER_UPDATE").then((result: any) => {
+            const exist: string[] = [];
+            const data = JSON.parse(result.result);
+            data.forEach((element: tableData) => {
+                element.checked = false;
+                exist.push(element.sMemberName);
+            });
+            setRows(data);
+            setExistNames(exist);
+        })
+    }
+
     const checkAll = () => {
         setCheckAll(!checkAllBox);
         rows.map((value) => {
             value.checked = !checkAllBox;
         })
-        const rowsData = [...rows];
-        setRows(rowsData);
+        setRows([...rows]);
     }
     const checkOne = (row: tableData, index: number) => {
         row.checked = !row.checked;
@@ -79,13 +81,13 @@ export default function MockPluginOneTable() {
         if (addMemberStatus) {
             setAddMemberStatus(false);
             if (valid || row.sMemberName === "") {
-                rows.splice(index,1);
+                rows.splice(index, 1);
                 setRows([...rows]);
                 return;
             }
             // 新建状态
             ws.query(`?MEMBER_CREAT("${row.sMemberName}")`);
-            setExistNames([...existNames,row.sMemberName]);
+            setExistNames([...existNames, row.sMemberName]);
         } else {
             // 修改状态
             ws.query(`?MEMBER_SAVE("${row.sMemberName}","${row.lMemberAge}")`);
@@ -97,7 +99,6 @@ export default function MockPluginOneTable() {
         setAddMemberStatus(true);
         setCheckAll(false);
         const defaultMember: tableData = { "sMemberName": "", "lMemberAge": '1', "checked": false };
-        // const rowsData = [...rows,defaultMember];
         setRows([...rows, defaultMember]);
     }
     const deletBtn = () => {
@@ -108,10 +109,18 @@ export default function MockPluginOneTable() {
     }
     const deleteItem = () => {
         rows.forEach((row) => {
-            ws.query(`?MEMBER_DELETE_ROW("${row.sMemberName}")`).then((result:any)=>{
-                setExistNames(existNames.filter((item) => {
-                    return item !== row.sMemberName;
-                }));
+            setExistNames(existNames.filter((item) => {
+                return item !== row.sMemberName;
+            }));
+        })
+        const selectRow = rows.filter((item) => {
+            return item.checked;
+        })
+        selectRow.forEach((row) => {
+            ws.query(`?MEMBER_DELETE_ROW("${row.sMemberName}")`).then((result: any) => {
+                if (row.sMemberName === selectRow[selectRow.length - 1].sMemberName) {
+                    update(ws);
+                }
             })
         })
     }
@@ -121,7 +130,7 @@ export default function MockPluginOneTable() {
                 {intl.get('delete')}
             </Button>
             <Button
-                disabled = {rows.length === 10}
+                disabled={rows.length === 10}
                 variant="contained"
                 color="primary"
                 onClick={() => { addMember() }}>
@@ -134,8 +143,8 @@ export default function MockPluginOneTable() {
                             <TableCell padding="checkbox">
                                 <Checkbox onChange={checkAll} checked={checkAllBox} />
                             </TableCell>
-                            <TableCell>{intl.get('VariableName')}</TableCell>
-                            <TableCell align="left">{intl.get('VariableValue')}</TableCell>
+                            <TableCell align="center">{intl.get('VariableName')}</TableCell>
+                            <TableCell align="center">{intl.get('VariableValue')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -144,10 +153,10 @@ export default function MockPluginOneTable() {
                                 <TableCell padding="checkbox">
                                     <Checkbox onChange={() => { checkOne(row, index) }} checked={row.checked} />
                                 </TableCell>
-                                <TableCell component="th" scope="row">
+                                <TableCell align="center" component="th" scope="row">
                                     <StringInput autoFocus={(row.sMemberName === "" && addMemberStatus) ? true : false} disabled={(row.sMemberName === "" && addMemberStatus) ? false : true} value={row.sMemberName} blur={(value: string, valid: boolean) => { row.sMemberName = value; blur(row, index, valid) }} existNames={existNames} />
                                 </TableCell>
-                                <TableCell align="left">
+                                <TableCell align="center">
                                     <StringInput value={row.lMemberAge} blur={(value: string, valid: boolean) => { row.lMemberAge = value; blur(row, index, valid) }} disabled={false} />
                                 </TableCell>
                             </TableRow>

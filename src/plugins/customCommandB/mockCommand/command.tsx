@@ -21,16 +21,22 @@ const useStyles = makeStyles({
     },
 });
 
+interface tableData {
+    "sMemberName": string,
+    "lMemberAge": string
+}
+
 export interface SimpleDialogProps {
     open: boolean;
     selectedValue: string;
     onClose: () => void;
     addCommand: any;
+    variableNames: string[];
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
     const classes = useStyles();
-    const { onClose, selectedValue, open, addCommand } = props;
+    const { onClose, selectedValue, open, addCommand, variableNames } = props;
     const [selectValue, setSelectValue] = useState('');
 
     const handleClose = () => {
@@ -44,12 +50,12 @@ function SimpleDialog(props: SimpleDialogProps) {
 
     const addMemberSave = () => {
         const cmd = `MEMDEL_DELETE(selectValue)`;
-        addCommand.insertAndJump(cmd,0)
+        addCommand.insertAndJump(cmd, 0)
     }
 
     return (
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-            <DialogTitle id="simple-dialog-title">add command</DialogTitle>
+            <DialogTitle id="simple-dialog-title">{intl.get('deleteVariable')}</DialogTitle>
             <FormControl className="addCommandForm">
                 <InputLabel id="demo-simple-select-label">variable</InputLabel>
                 <Select
@@ -58,16 +64,16 @@ function SimpleDialog(props: SimpleDialogProps) {
                     value={selectValue}
                     onChange={handleChange}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {variableNames.map((ele) => {
+                        return <MenuItem value={ele} key={ele}>{ele}</MenuItem>
+                    })}
                 </Select>
             </FormControl>
             <div className="addCommandBtn">
                 <Button variant="contained" color="primary" className="addCommandBtnInsert" onClick={handleClose}>
                     {intl.get('cancel')}
                 </Button>
-                <Button variant="contained" color="primary" onClick={addMemberSave}>
+                <Button variant="contained" color="primary" onClick={addMemberSave} disabled={!selectValue}>
                     {intl.get('insert')}
                 </Button>
             </div>
@@ -79,6 +85,8 @@ function AddCommand() {
     const [open, setOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(emails[1]);
     const [addCommand, setAddCommand] = useState();
+    const [ws, setWs] = useState<any>();
+    const [variableNames, setVariableNames] = useState<string[]>([]);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -89,11 +97,19 @@ function AddCommand() {
     };
 
     useEffect(() => {
-        // document.addEventListener("addCommand",(e:any)=>{
-        //     setAddCommand(e.detail.addCommand);
-        // })
-        getCustomEvent("addCommand",(value: any) => {
+        getCustomEvent("addCommand", (value: any) => {
             setAddCommand(value.addCommand);
+        })
+        getCustomEvent("ws", (value: any) => {
+            setWs(value.ws);
+            value.ws.query("?MEMBER_UPDATE").then((result: any) => {
+                const member: string[] = [];
+                const data = JSON.parse(result.result);
+                data.forEach((element: tableData) => {
+                    member.push(element.sMemberName);
+                });
+                setVariableNames(member);
+            })
         })
     }, []);
 
@@ -102,7 +118,7 @@ function AddCommand() {
             <div onClick={handleClickOpen}>
                 MEMDEL_DELETE
             </div>
-            <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} addCommand={addCommand}/>
+            <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} addCommand={addCommand} variableNames={variableNames} />
         </div>
     );
 }

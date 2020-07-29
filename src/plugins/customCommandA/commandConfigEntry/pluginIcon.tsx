@@ -13,7 +13,7 @@ function HomeIcon(props: SvgIconProps) {
     );
 }
 
-function pluginElement(){
+function pluginElement() {
     // document.dispatchEvent(new CustomEvent("plugin",{
     //     "detail":{
     //         "pluginElement": "mock-plugin"        }
@@ -30,15 +30,15 @@ function SvgIconsColor() {
     );
 }
 
-export default class PluginIcon extends Component <any,any>{
-    constructor(props:any) {
+export default class PluginIcon extends Component<any, any>{
+    constructor(props: any) {
         super(props);
         this.state = {
             router: ''
         }
     }
     componentDidMount() {
-        getCustomEvent("router", (router:any) => {
+        getCustomEvent("router", (router: any) => {
             this.setState({
                 "router": router
             })
@@ -52,7 +52,7 @@ export default class PluginIcon extends Component <any,any>{
     }
     render() {
         return (
-            <div onClick={() => {this.goPlugin()}}>
+            <div onClick={() => { this.goPlugin() }}>
                 <SvgIconsColor></SvgIconsColor>
             </div>
         )

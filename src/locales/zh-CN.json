@@ -10,5 +10,7 @@
     "VariableValue": "变量值",
     "cancel": "取消",
     "insert": "插入",
-    "variable": "变量名"
+    "variable": "变量名",
+    "modifyVariable": "修改变量",
+    "deleteVariable": "删除变量"
 }

@@ -10,5 +10,7 @@
     "VariableValue": "Variable value",
     "cancel": "CANCEL",
     "insert": "INSERT",
-    "variable": "variable"
+    "variable": "variable",
+    "modifyVariable": "Modify variable",
+    "deleteVariable": "Delete variable"
 }
