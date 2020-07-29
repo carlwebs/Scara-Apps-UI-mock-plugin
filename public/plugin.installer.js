@@ -6,7 +6,14 @@
     // document.body.appendChild(mainScript);
     // document.body.appendChild(venderScript);
 
-    const pluginEle = document.createElement('mock-plugin');
     const rootEle = document.getElementById('root');
-    rootEle.appendChild(pluginEle);
+    const entryEle = document.createElement('plugin-command-a-entry');
+    entryEle.addEventListener('clickEvent', (e) => {
+        console.log('Catched event on listener: ', e.detail.value);
+        setTimeout(() => {
+            e.detail.cb('You clicked me');
+        }, 500);
+    });
+    entryEle.setAttribute('name', 'Hello Input name');
+    rootEle.appendChild(entryEle);
 })();

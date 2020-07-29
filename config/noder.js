@@ -1,18 +1,38 @@
+"use strict";
 
-const path = require('path');
-const glob = require('glob');
-const fs = require('fs');
+function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
-const appDirectory = fs.realpathSync(process.cwd());
-const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
 
-const pluginEntries = function () {
-    const pluginRoot = resolveApp('src/plugins');
-    return glob.sync(pluginRoot + '/*/*.tsx').reduce((acc, filePath) => {
-        const fileName = filePath.replace(/.*\/(\w+)\/\w+(\.html|\.tsx)$/, (rs, $1) => $1);
-        return { ...acc, [fileName]: filePath };
-    }, {});
-};
+function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps); return Constructor;
+}
 
-console.log(pluginEntries());
+var People = /*#__PURE__*/function () {
+    function People() {
+        _classCallCheck(this, People);
+    }
+
+    _createClass(People, [{
+        key: "instanceMethod",
+        value: function instanceMethod() { }
+    }], [{
+        key: "staticMethod",
+        value: function staticMethod() { }
+    }]);
+
+    return People;
+}();
+
+new People();
