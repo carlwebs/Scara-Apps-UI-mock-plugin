@@ -2,7 +2,7 @@
     "delete": "删除",
     "create": "创建",
     "sMemberName": "成员姓名",
-    "lMemberAge": "成员年龄",
+    "sMemberAge": "成员年龄",
     "sMemberHobby": "成员爱好",
     "lMemberScore": "成员成绩",
     "existName": "名称已存在",

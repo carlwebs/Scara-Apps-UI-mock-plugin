@@ -2,7 +2,7 @@
     "delete": "delete",
     "create": "create",
     "sMemberName": "sMemberName",
-    "lMemberAge": "lMemberAge",
+    "sMemberAge": "sMemberAge",
     "sMemberHobby": "sMemberHobby",
     "lMemberScore": "lMemberScore",
     "existName": "Name already exists",

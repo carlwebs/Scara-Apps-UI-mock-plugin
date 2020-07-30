@@ -13,7 +13,7 @@ import { getCustomEvent } from '../../customEvent';
 
 interface tableData {
     "sMemberName": string,
-    "lMemberAge": string,
+    "sMemberAge": string,
     "checked"?: boolean
 }
 
@@ -40,14 +40,15 @@ function SimpleDialog(props: SimpleDialogProps) {
         setSelectVar(selectVarName as string);
         allVariable.forEach(element => {
             if (element.sMemberName === selectVarName) {
-                setVariable(element.lMemberAge);
+                setVariable(element.sMemberAge);
             }
         });
     };
 
     const addMemberSave = (): void => {
-        const cmd = `MEMBER_UPDATE(selectedVar,variable)`;
-        addCommand.insertAndJump(cmd, 0)
+        const cmd = `MEMBER_UPDATE(${selectedVar},${variable})`;
+        addCommand.insertAndJump(cmd, 0);
+        onClose();
     }
     useEffect(() => {
         getCustomEvent("ws", (value: any) => {
@@ -61,7 +62,6 @@ function SimpleDialog(props: SimpleDialogProps) {
                 setAllVariable(variableNames);
             })
         })
-
     }, []);
 
     return (
@@ -111,9 +111,6 @@ function AddCommandComp() {
     };
 
     useEffect(() => {
-        // document.addEventListener("addCommand",(e:any)=>{
-        //     setAddCommand(e.detail.addCommand);
-        // })
         getCustomEvent("addCommand", (value: any) => {
             setAddCommand(value.addCommand);
         })

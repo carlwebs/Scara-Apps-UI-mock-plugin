@@ -13,17 +13,9 @@ import intl from 'react-intl-universal';
 import './command.css';
 import { getCustomEvent } from '../../customEvent';
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
-const useStyles = makeStyles({
-    avatar: {
-        backgroundColor: blue[100],
-        color: blue[600],
-    },
-});
-
 interface tableData {
     "sMemberName": string,
-    "lMemberAge": string
+    "sMemberAge": string
 }
 
 export interface SimpleDialogProps {
@@ -35,7 +27,6 @@ export interface SimpleDialogProps {
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
-    const classes = useStyles();
     const { onClose, selectedValue, open, addCommand, variableNames } = props;
     const [selectValue, setSelectValue] = useState('');
 
@@ -49,8 +40,9 @@ function SimpleDialog(props: SimpleDialogProps) {
     };
 
     const addMemberSave = () => {
-        const cmd = `MEMDEL_DELETE(selectValue)`;
-        addCommand.insertAndJump(cmd, 0)
+        const cmd = `MEMDEL_DELETE("${selectValue}")`;
+        addCommand.insertAndJump(cmd, 0);
+        onClose();
     }
 
     return (
@@ -83,7 +75,7 @@ function SimpleDialog(props: SimpleDialogProps) {
 
 function AddCommand() {
     const [open, setOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(emails[1]);
+    const [selectedValue, setSelectedValue] = useState('');
     const [addCommand, setAddCommand] = useState();
     const [ws, setWs] = useState<any>();
     const [variableNames, setVariableNames] = useState<string[]>([]);

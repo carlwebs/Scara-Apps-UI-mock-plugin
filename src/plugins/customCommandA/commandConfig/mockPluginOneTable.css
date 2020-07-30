@@ -1,0 +1,28 @@
+.MuiButton-containedPrimary {
+    width: 160px;
+    border-radius: 36px !important;
+}
+.kuka .MuiButton-containedPrimary {
+    background: #ff7300 !important;
+}
+.stx .MuiButton-containedPrimary {
+    background: #11826c !important;
+}
+
+.MuiButton-containedSecondary {
+    width: 160px;
+    border-radius: 36px !important;
+}
+.kuka .MuiButton-containedSecondary {
+    background: #d50000 !important;
+}
+.stx .MuiButton-containedSecondary {
+    background: #f44336 !important;
+}
+.btnBox {
+    float: right;
+    margin: 20px;
+}
+.btnBox button {
+    margin-right: 20px;
+}

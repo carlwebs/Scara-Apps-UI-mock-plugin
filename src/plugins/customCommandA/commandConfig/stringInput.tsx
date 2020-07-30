@@ -5,19 +5,8 @@ import Input from '@material-ui/core/Input';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import intl from 'react-intl-universal';
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            '& .MuiTextField-root': {
-                margin: theme.spacing(1),
-                width: 200,
-            },
-        },
-    }),
-);
 
 export default function StringInput(props: any) {
-    const classes = useStyles();
     const [valid, setValid] = useState(false);
     const [value, setValue] = useState(props.value || '');
     const [maxLength, setMaxLength] = useState(props.maxLeng || 6);
@@ -41,7 +30,7 @@ export default function StringInput(props: any) {
     }
 
     return (
-        <form className={classes.root} noValidate autoComplete="off">
+        <form noValidate autoComplete="off">
             <div>
                 <TextField
                     autoFocus={props.autoFocus}
