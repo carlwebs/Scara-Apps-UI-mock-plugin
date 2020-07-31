@@ -41,7 +41,7 @@ function SimpleDialog(props: SimpleDialogProps) {
     };
 
     const addMemberSave = () => {
-        const cmd = `MEMDEL_DELETE("${selectValue}")`;
+        const cmd = `MemdelDelete("${selectValue}")`;
         addCommand.insertAndJump(cmd, 0);
         onClose();
     }
@@ -109,7 +109,7 @@ function AddCommand() {
     return (
         <div>
             <div onClick={handleClickOpen}>
-                MEMDEL_DELETE
+                MemdelDelete
             </div>
             <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} addCommand={addCommand} variableNames={variableNames} />
         </div>

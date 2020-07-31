@@ -47,7 +47,7 @@ function SimpleDialog(props: SimpleDialogProps) {
     };
 
     const addMemberSave = (): void => {
-        const cmd = `MEMBER_UPDATE("${selectedVar}","${variable}")`;
+        const cmd = `MemberSave("${selectedVar}","${variable}")`;
         addCommand.insertAndJump(cmd, 0);
         onClose();
     }
@@ -131,7 +131,7 @@ function AddCommandComp() {
     return (
         <div>
             <div onClick={handleClickOpen}>
-                MEMBER_UPDATE
+                MemberSave
             </div>
             <SimpleDialog open={open} onClose={handleClose} addCommand={addCommand} />
         </div>
