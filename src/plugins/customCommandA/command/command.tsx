@@ -9,6 +9,7 @@ import Select from '@material-ui/core/Select';
 import intl from 'react-intl-universal';
 import StringInput from '../commandConfig/stringInput';
 import './command.css';
+import '../../theme.css'
 import { getCustomEvent } from '../../customEvent';
 
 interface tableData {
@@ -46,10 +47,20 @@ function SimpleDialog(props: SimpleDialogProps) {
     };
 
     const addMemberSave = (): void => {
-        const cmd = `MEMBER_UPDATE(${selectedVar},${variable})`;
+        const cmd = `MEMBER_UPDATE("${selectedVar}","${variable}")`;
         addCommand.insertAndJump(cmd, 0);
         onClose();
     }
+
+    const changeVariable = (e: any): void => {
+        e.persist();
+        let originalVal = e.target.value;
+        setTimeout(() => {
+            const valueData = originalVal.replace(/[^a-z|A-Z|0-9|_]+/g, '').slice(0,32);
+            setVariable(valueData);
+        }, 20);
+    }
+
     useEffect(() => {
         getCustomEvent("ws", (value: any) => {
             setWs(value.ws);
@@ -80,12 +91,13 @@ function SimpleDialog(props: SimpleDialogProps) {
                     {allVariable.map((ele) => {
                         return <MenuItem value={ele.sMemberName} key={ele.sMemberName}>{ele.sMemberName}</MenuItem>
                     })}
-                    {/* <MenuItem value={10}>Ten</MenuItem>
+                    {/* <MenuItem value={32}>Ten</MenuItem>
                     <MenuItem value={20}>Twenty</MenuItem>
                     <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
             </FormControl>
-            <StringInput blur={(value: string, valid: boolean) => { }} value={variable}></StringInput>
+            {/* <StringInput blur={(value: string, valid: boolean) => { }} value={variable}></StringInput> */}
+            <input type="text" maxLength={32} value={variable} className="commandVariable" onChange={($event) => {changeVariable($event)}} />
             <div className="addCommandBtn">
                 <Button variant="contained" color="primary" className="addCommandBtnInsert" onClick={onClose}>
                     {intl.get('cancel')}

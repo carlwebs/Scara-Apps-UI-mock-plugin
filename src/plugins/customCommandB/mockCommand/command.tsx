@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import intl from 'react-intl-universal';
 import './command.css';
 import { getCustomEvent } from '../../customEvent';
+import '../../theme.css'
 
 interface tableData {
     "sMemberName": string,

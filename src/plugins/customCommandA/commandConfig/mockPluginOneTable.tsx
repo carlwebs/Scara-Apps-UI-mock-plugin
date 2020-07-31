@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,7 +11,7 @@ import StringInput from './stringInput';
 import { Button } from '@material-ui/core';
 import intl from 'react-intl-universal';
 import { getCustomEvent } from '../../customEvent';
-import "./mockPluginOneTable.css";
+import "../../theme.css"
 
 interface tableData {
     "sMemberName": string,
@@ -36,11 +35,6 @@ export default function MockPluginOneTable() {
             setWs(value.ws);
             update(value.ws);
         })
-        // let arrData: tableData[] = [
-        //     { "sMemberName": "aa", "sMemberAge": '1', "checked": false },
-        //     { "sMemberName": "bb", "sMemberAge": '1', "checked": false },
-        //     { "sMemberName": "cc", "sMemberAge": '1', "checked": false },
-        // ]
     }, []);
 
     const update = (ws: any) => {
