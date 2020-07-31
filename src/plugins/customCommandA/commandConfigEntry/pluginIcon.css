@@ -1,9 +1,15 @@
-.addPluginIcon{
+.addPluginIcon {
     position: relative;
     padding-left: 15px;
 }
-.addPluginIcon .variable{
+.addPluginIcon .variable {
     position: absolute;
     top: 2px;
     left: 41px;
+}
+.kuka .MuiSvgIcon-colorPrimary {
+    color: #ff7300 !important;
+}
+.stx .MuiSvgIcon-colorPrimary {
+    color: #11826c !important;
 }

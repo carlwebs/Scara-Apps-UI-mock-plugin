@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
 import SvgIcon, { SvgIconProps } from '@material-ui/core/SvgIcon';
 import './pluginIcon.css';
 import { getCustomEvent } from '../../customEvent';
+import intl from 'react-intl-universal';
+
 
 function HomeIcon(props: SvgIconProps) {
     return (
@@ -25,7 +25,7 @@ function SvgIconsColor() {
     return (
         <div className="addPluginIcon" onClick={pluginElement}>
             <HomeIcon color="primary" />
-            <div className="variable">AddVariable</div>
+            <div className="variable">{intl.get('mockPlugin')}</div>
         </div>
     );
 }

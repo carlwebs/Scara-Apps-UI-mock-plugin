@@ -12,5 +12,6 @@
     "insert": "INSERT",
     "variable": "variable",
     "modifyVariable": "Modify variable",
-    "deleteVariable": "Delete variable"
+    "deleteVariable": "Delete variable",
+    "mockPlugin": "mock plugin"
 }
