@@ -15,7 +15,7 @@ const retargetEvents = require('react-shadow-dom-retarget-events');
 * @param {string[]} [events=[]] - The register events for listen on custom element.
 * @param {boolean} useShadowDom - If the value is set to "true" the web component will use the `shadowDom`. The default value is true.
 */
-export default function createCustomElement(app: any, tagName: string, events: string[] = [], useShadowDom = false) {
+export default function defineCustomElement(app: any, tagName: string, events: string[] = [], useShadowDom = false) {
     const lifeCycleHooks: any = {
         attachedCallback: 'attachedCallback',
         connectedCallback: 'connectedCallback',

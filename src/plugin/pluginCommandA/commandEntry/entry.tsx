@@ -11,20 +11,20 @@ function HomeIcon(props: SvgIconProps) {
 }
 
 export class PluginCommandAEntry extends Component {
-    props: any;
-    state: any;
+    public props: any;
+    public state: any;
     constructor(props: any) {
         super(props);
         this.clickHandler = this.clickHandler.bind(this);
         this.state = { value: 'click me' };
     }
 
-    connectedCallback() {
+    public connectedCallback(): void {
         // will be called when the Web Component has been attached
         console.log('connectedCallback');
     }
 
-    clickHandler() {
+    private clickHandler(): void {
         this.props.clickEvent('Click me', (res: string) => {
             console.log('Cached callback fn with: ', res);
             this.setState({ value: res });
@@ -41,7 +41,7 @@ export class PluginCommandAEntry extends Component {
     }
 }
 
-export function PluginCommandAEntryFunc(props: any) {
+export function PluginCommandAEntryFunc(props: any): JSX.Element {
     const [value, setValue] = useState('click me');
 
     function clickHandler(): void {
