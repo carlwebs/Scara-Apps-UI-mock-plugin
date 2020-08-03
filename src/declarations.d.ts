@@ -6,5 +6,6 @@ declare namespace JSX {
         'plugin-icon': any;
         'mock-command-delete': any;
         'plugin-command-a-entry': any;
+        'plugin-io-main-view': any;
     }
 }

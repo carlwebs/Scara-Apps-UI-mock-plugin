@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import { PluginIOTester } from './tester/pluginIOTester';
 
 class App extends React.Component {
     constructor(props: any) {
@@ -7,16 +8,16 @@ class App extends React.Component {
         this.clickHandler = this.clickHandler.bind(this);
     }
     componentDidMount() {
-        const hostEle = document.getElementById('pluginHost');
-        const entryEle = document.createElement('plugin-command-a-entry');
-        entryEle.addEventListener('clickEvent', (e: any) => {
-            console.log('Catched event on listener: ', e.detail.value);
-            setTimeout(() => {
-                e.detail.cb('You clicked me');
-            }, 500);
-        });
-        entryEle.setAttribute('name', 'Hello Input name');
-        hostEle?.appendChild(entryEle);
+        // const hostEle = document.getElementById('pluginHost');
+        // const entryEle = document.createElement('plugin-command-a-entry');
+        // entryEle.addEventListener('clickEvent', (e: any) => {
+        //     // console.log('Catched event on listener: ', e.detail.value);
+        //     // setTimeout(() => {
+        //     //     e.detail.cb('You clicked me');
+        //     // }, 500);
+        // });
+        // entryEle.setAttribute('name', 'Hello Input name');
+        // hostEle?.appendChild(entryEle);
     }
     clickHandler(value: any) {
         console.log(value);
@@ -27,7 +28,7 @@ class App extends React.Component {
                 <plugin-icon></plugin-icon>
                 <mock-plugin></mock-plugin>
                 <mock-command></mock-command>
-                <mock-command-delete></mock-command-delete>
+                <PluginIOTester />
             </div>
         )
     }
