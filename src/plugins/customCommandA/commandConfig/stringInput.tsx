@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import './stringInput.css';
 import Input from '@material-ui/core/Input';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import intl from 'react-intl-universal';
 
 
@@ -31,7 +30,7 @@ export default function StringInput(props: any) {
 
     return (
         <form noValidate autoComplete="off">
-            <div>
+            <div className="stringTextField">
                 <TextField
                     autoFocus={props.autoFocus}
                     disabled={props.disabled}
