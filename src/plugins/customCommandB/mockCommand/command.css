@@ -12,3 +12,41 @@ div.addCommandBtn {
 .addCommandBtnInsert {
     margin-right: 20px !important;
 }  
+.kuka div#simple-dialog-title {
+    background: #ff7300;
+    color: white;
+}
+.stx div#simple-dialog-title {
+    background: #11826c;
+    color: white;
+}
+.addCommandBtn .MuiButton-containedPrimary {
+    width: 160px;
+    border-radius: 5px !important;
+}
+.kuka .addCommandBtn .addCommandBtnInsert {
+    background: transparent !important;
+    color: black;
+}
+.kuka .addCommandBtn .addCommandBtnInsert:hover {
+    background: #eee !important;
+}
+.kuka .addCommandBtn .addCommandBtnInsert {
+    box-shadow: none;
+}
+.stx .addCommandBtn .addCommandBtnInsert {
+    background: transparent !important;
+    color: black;
+}
+.stx .addCommandBtn .addCommandBtnInsert:hover {
+    background: #eee !important;
+}
+.stx .addCommandBtn .addCommandBtnInsert {
+    box-shadow: none;
+}
+.kuka .addCommandBtn .Mui-disabled {
+    background: rgba(0, 0, 0, 0.12) !important;
+}
+.stx .addCommandBtn .Mui-disabled {
+    background: rgba(0, 0, 0, 0.12) !important;
+}

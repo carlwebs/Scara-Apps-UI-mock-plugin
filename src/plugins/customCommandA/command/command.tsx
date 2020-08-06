@@ -9,7 +9,6 @@ import Select from '@material-ui/core/Select';
 import intl from 'react-intl-universal';
 import StringInput from '../commandConfig/stringInput';
 import './command.css';
-import '../../theme.css'
 import { getCustomEvent } from '../../customEvent';
 
 interface tableData {
@@ -30,6 +29,7 @@ function SimpleDialog(props: SimpleDialogProps) {
     const [variable, setVariable] = useState('');
     const [allVariable, setAllVariable] = useState<tableData[]>([]);
     const [ws, setWs] = useState<any>();
+    const [theme, setTheme] = useState('');
 
 
     const handleClose = (): void => {
@@ -62,6 +62,10 @@ function SimpleDialog(props: SimpleDialogProps) {
     }
 
     useEffect(() => {
+        setTheme(localStorage.getItem("theme") || "kuka");
+        getCustomEvent("changeTheme", (value: any) => {
+            setTheme(value.theme);
+        })
         getCustomEvent("ws", (value: any) => {
             setWs(value.ws);
             value.ws.query("?MEMBER_UPDATE").then((result: any) => {
@@ -76,7 +80,7 @@ function SimpleDialog(props: SimpleDialogProps) {
     }, []);
 
     return (
-        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} className={theme}>
             <DialogTitle id="simple-dialog-title">{intl.get('modifyVariable')}</DialogTitle>
             <FormControl className="addCommandForm">
                 <InputLabel id="demo-simple-select-label">
@@ -97,7 +101,7 @@ function SimpleDialog(props: SimpleDialogProps) {
                 </Select>
             </FormControl>
             {/* <StringInput blur={(value: string, valid: boolean) => { }} value={variable}></StringInput> */}
-            <input type="text" maxLength={32} value={variable} className="commandVariable" onChange={($event) => {changeVariable($event)}} />
+            <input type="text" maxLength={32} value={variable} className="commandVariable" placeholder={intl.get('VariableValue')} onChange={($event) => {changeVariable($event)}} />
             <div className="addCommandBtn">
                 <Button variant="contained" color="primary" className="addCommandBtnInsert" onClick={onClose}>
                     {intl.get('cancel')}
@@ -140,7 +144,7 @@ function AddCommandComp() {
 
 export default class MockCommand extends React.Component {
     componentDidMount() {
-
+        
     }
     render() {
         return <AddCommandComp />

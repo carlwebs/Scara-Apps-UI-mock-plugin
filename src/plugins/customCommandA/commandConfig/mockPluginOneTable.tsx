@@ -73,9 +73,11 @@ export default function MockPluginOneTable() {
                 setRows([...rows]);
                 return;
             }
+            row.sMemberName = row.sMemberName.toLocaleUpperCase();
             // 新建状态
             ws.query(`?MEMBER_CREAT("${row.sMemberName}")`);
             setExistNames([...existNames, row.sMemberName]);
+            setRows([...rows]);
         } else {
             // 修改状态
             ws.query(`?MEMBER_SAVE("${row.sMemberName}","${row.sMemberAge}")`);

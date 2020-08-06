@@ -11,7 +11,7 @@ import Select from '@material-ui/core/Select';
 import intl from 'react-intl-universal';
 import './command.css';
 import { getCustomEvent } from '../../customEvent';
-import '../../theme.css'
+// import '../../theme.css'
 
 interface tableData {
     "sMemberName": string,
@@ -29,6 +29,7 @@ export interface SimpleDialogProps {
 function SimpleDialog(props: SimpleDialogProps) {
     const { onClose, selectedValue, open, addCommand, variableNames } = props;
     const [selectValue, setSelectValue] = useState('');
+    const [theme, setTheme] = useState('');
 
     const handleClose = () => {
         onClose();
@@ -45,8 +46,12 @@ function SimpleDialog(props: SimpleDialogProps) {
         onClose();
     }
 
+    useEffect(() => {
+        setTheme(localStorage.getItem("theme") || "kuka");
+    }, []);
+
     return (
-        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+        <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} className={theme}>
             <DialogTitle id="simple-dialog-title">{intl.get('deleteVariable')}</DialogTitle>
             <FormControl className="addCommandForm">
                 <InputLabel id="demo-simple-select-label">variable</InputLabel>

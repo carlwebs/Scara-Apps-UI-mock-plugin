@@ -28,6 +28,7 @@ class App extends React.Component {
                 <plugin-icon></plugin-icon>
                 <mock-plugin></mock-plugin>
                 <mock-command></mock-command>
+                <mock-command-delete></mock-command-delete>
                 <PluginIOTester />
             </div>
         )
