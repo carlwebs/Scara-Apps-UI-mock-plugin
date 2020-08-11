@@ -41,6 +41,7 @@ export default function StringInput(props: any) {
                     onBlur={() => { props.blur(value, valid) }}
                     helperText={valid ? intl.get('existName') : ""}
                 />
+                <input type="text" style={{"display": "none"}}/>
             </div>
         </form>
     );
