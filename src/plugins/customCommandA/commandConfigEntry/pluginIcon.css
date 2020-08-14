@@ -1,12 +1,15 @@
+#addPluginId {
+    margin-left: 15px;
+}
 .addPluginIcon {
     position: relative;
-    padding-left: 15px;
+    /* margin-left: 15px; */
 }
 
 .addPluginIcon .variable {
     position: absolute;
     top: 2px;
-    left: 41px;
+    left: 26px;
 }
 .kuka .MuiSvgIcon-colorPrimary {
     color: #ff7300 !important;
@@ -14,6 +17,9 @@
 .stx .MuiSvgIcon-colorPrimary {
     color: #11826c !important;
 }
-.addPluginIcon:hover {
+.pluginHover:hover {
     background-color: #eee;
+}
+.pluginSelected {
+    background: #e0f2f1;
 }

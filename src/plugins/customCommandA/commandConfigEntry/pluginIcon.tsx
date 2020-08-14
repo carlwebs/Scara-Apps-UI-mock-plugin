@@ -13,12 +13,14 @@ function HomeIcon(props: SvgIconProps) {
     );
 }
 
-function SvgIconsColor(props:any) {
+function SvgIconsColor(props: any) {
 
     return (
-        <div className="addPluginIcon" style={props.state=='true'?{color:'rgba(16, 16, 16, 0.3)'}:{}}>
-            <HomeIcon color="primary"/>
-            <div className="variable">{intl.get('mockPlugin')}</div>
+        <div id="addPluginId" className={props.className}>
+            <div className="addPluginIcon" style={props.state == 'true' ? { color: 'rgba(16, 16, 16, 0.3)' } : {}}>
+                <HomeIcon color="primary" />
+                <div className="variable">{intl.get('mockPlugin')}</div>
+            </div>
         </div>
     );
 }
@@ -27,7 +29,8 @@ export default class PluginIcon extends Component<any, any>{
     constructor(props: any) {
         super(props);
         this.state = {
-            router: ''
+            router: '',
+            className: ''
         }
     }
     componentDidMount() {
@@ -36,11 +39,21 @@ export default class PluginIcon extends Component<any, any>{
                 "router": router
             })
         })
+        getCustomEvent("changeProject", (value: any) => {
+            this.setState({
+                "className": value.className
+            })
+        })
+    }
+    changeProject() {
+        this.setState({
+            "className": "pluginSelected"
+        })
     }
     render() {
         return (
-            <div>
-                <SvgIconsColor state={this.props.state}></SvgIconsColor>
+            <div onClick={() => {this.changeProject()}}>
+                <SvgIconsColor state={this.props.state} className={this.state.className}></SvgIconsColor>
             </div>
         )
     }
