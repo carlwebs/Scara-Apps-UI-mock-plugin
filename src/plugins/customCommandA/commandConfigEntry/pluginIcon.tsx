@@ -30,10 +30,12 @@ export default class PluginIcon extends Component<any, any>{
         super(props);
         this.state = {
             router: '',
-            className: ''
+            className: '',
+            ipadMt: ''
         }
     }
     componentDidMount() {
+        this.getiPad();
         getCustomEvent("router", (router: any) => {
             this.setState({
                 "router": router
@@ -45,15 +47,21 @@ export default class PluginIcon extends Component<any, any>{
             })
         })
     }
-    changeProject() {
+    getiPad() {
+        var ua = navigator.userAgent.toLowerCase();
+        if(!ua.includes("window")) {
+            this.setState({"ipadMt":"ipadMt"})
+        }
+    }
+    changeProject(e:any) {
         this.setState({
             "className": "pluginSelected"
         })
     }
     render() {
         return (
-            <div onClick={() => {this.changeProject()}}>
-                <SvgIconsColor state={this.props.state} className={this.state.className}></SvgIconsColor>
+            <div onClick={($event) => { this.changeProject($event) }} className={this.state.ipadMt}>
+                <SvgIconsColor className={this.state.className}></SvgIconsColor>
             </div>
         )
     }

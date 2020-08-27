@@ -50,3 +50,9 @@ div.addCommandBtn {
 .stx .addCommandBtn .Mui-disabled {
     background: rgba(0, 0, 0, 0.12) !important;
 }
+.kuka .disable .command {
+    color: rgba(0, 0, 0, 0.26);
+}
+.stx .disable .command {
+    color: rgba(0, 0, 0, 0.26);
+}

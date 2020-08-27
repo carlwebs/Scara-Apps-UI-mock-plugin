@@ -17,9 +17,27 @@
 .stx .MuiSvgIcon-colorPrimary {
     color: #11826c !important;
 }
+.kuka .disable .MuiSvgIcon-colorPrimary {
+    color: rgba(0, 0, 0, 0.26) !important;
+}
+.kuka .disable .variable {
+    color: rgba(0, 0, 0, 0.26);
+}
+.stx .disable .MuiSvgIcon-colorPrimary {
+    color: rgba(0, 0, 0, 0.26) !important;
+}
+.stx .disable .variable {
+    color: rgba(0, 0, 0, 0.26);
+}
 .pluginHover:hover {
     background-color: #eee;
 }
 .pluginSelected {
     background: #e0f2f1;
+}
+.disable .pluginSelected {
+    background: none;
+}
+.ipadMt {
+    padding-top: 24px;
 }

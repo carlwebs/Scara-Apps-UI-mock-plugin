@@ -118,8 +118,12 @@ function AddCommandComp() {
     const [open, setOpen] = useState(false);
     const [addCommand, setAddCommand] = useState();
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleClickOpen = ($event: any) => {
+        if(!$event.target.parentNode.parentNode.classList.contains('disable')) {
+            setOpen(true);
+        }else {
+            $event.stopPropagation();
+        }
     };
 
     const handleClose = () => {
@@ -134,7 +138,7 @@ function AddCommandComp() {
 
     return (
         <div>
-            <div onClick={handleClickOpen}>
+            <div onClick={handleClickOpen} className="command">
                 MemberSave
             </div>
             <SimpleDialog open={open} onClose={handleClose} addCommand={addCommand} />

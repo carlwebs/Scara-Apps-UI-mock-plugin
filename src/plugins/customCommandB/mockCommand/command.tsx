@@ -85,8 +85,12 @@ function AddCommand() {
     const [ws, setWs] = useState<any>();
     const [variableNames, setVariableNames] = useState<string[]>([]);
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleClickOpen = ($event: any) => {
+        if(!$event.target.parentNode.parentNode.parentNode.classList.contains('disable')) {
+            setOpen(true);
+        }else {
+            $event.stopPropagation();
+        }
     };
 
     const handleClose = () => {
@@ -112,7 +116,7 @@ function AddCommand() {
 
     return (
         <div>
-            <div onClick={handleClickOpen}>
+            <div onClick={handleClickOpen} className="command">
                 MemdelDelete
             </div>
             <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} addCommand={addCommand} variableNames={variableNames} />
